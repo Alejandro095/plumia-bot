@@ -38,6 +38,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const telegraf_1 = require("telegraf");
 const BotHandlers = __importStar(require("./handlers/bot.handler"));
+const VisitsHandlers = __importStar(require("./handlers/visits.handler"));
+const SpotsHandlers = __importStar(require("./handlers/spots.handler"));
+const validators_1 = __importStar(require("./validators"));
+const visits_validator_1 = __importDefault(require("./validators/visits.validator"));
+const spot_validatos_1 = __importDefault(require("./validators/spot.validatos"));
 function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -46,8 +51,10 @@ function bootstrap() {
             }
             const bot = new telegraf_1.Telegraf(process.env.BOT_TOKEN);
             const app = (0, express_1.default)();
+            // Middlewares
             app.use(express_1.default.json());
             app.use(express_1.default.urlencoded({ extended: true }));
+            // Iniciar el bot
             if (process.env.ENVIROMENT === "development") {
                 bot.launch();
             }
@@ -56,8 +63,17 @@ function bootstrap() {
                     domain: process.env.WEBHOOK_DOMAIN,
                 }));
             }
+            // Asignar los manejadores de eventos del bot
             bot.command('/start', BotHandlers.messageHandler);
             bot.on("message", BotHandlers.messageHandler);
+            // Rutas del recurso de visitas
+            app.post('/api/visit/arrived', validators_1.default.body(visits_validator_1.default), VisitsHandlers.arrivedHandler(bot)); // Cuando el visitante llega
+            app.post('/api/visit/departed', validators_1.default.body(visits_validator_1.default), VisitsHandlers.departedHandler(bot)); // Cuando el visitante se va
+            // Ruta para el recurso de espacios libres
+            app.get('/api/spots/available', validators_1.default.query(spot_validatos_1.default), SpotsHandlers.availableHandler(bot)); // Consultar espacios disponibles en un centro comercial
+            // Middleware para manejar errores de validación
+            app.use(validators_1.validatorMiddleware);
+            // Iniciar el servidor
             app.listen(process.env.PORT, () => {
                 console.log(`Server is running.`);
             });
@@ -68,18 +84,3 @@ function bootstrap() {
     });
 }
 bootstrap();
-// import { Telegraf } from "telegraf";
-// import { message } from 'telegraf/filters';
-// const bot = new Telegraf(process.env.BOT_TOKEN!);
-// bot.on(message("text"), ctx => ctx.reply("Hello"));
-// // Start webhook via launch method (preferred)
-// if (process.env.ENVIROMENT === "development") {
-//     bot.launch();
-// } else {
-//     bot.launch({
-//         webhook: {1
-//             domain: process.env.WEBHOOK_DOMAIN!,
-//             port: Number(process.env.PORT),
-//         },
-//     }, () => console.log("Bot is running"));
-// }
