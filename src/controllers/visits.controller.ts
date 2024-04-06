@@ -18,6 +18,15 @@ export async function createVisit(licensePlate: string, mallId: string): Promise
         };
     }
 
+    let vehicle = await VehiclesRepository.getByLicensePlate(licensePlate);
+
+    if (!vehicle) {
+        return {
+            error: true,
+            message: 'Vehicle not found'
+        };
+    }
+
     let availableSpots = await SpotsController.getAvailableSpots(mallId);
 
     if (availableSpots.error || (availableSpots.data && availableSpots.data?.free === 0 || !availableSpots.data?.spots[0].id)) {
@@ -35,15 +44,6 @@ export async function createVisit(licensePlate: string, mallId: string): Promise
         return {
             error: true,
             message: 'Error updating spot availability'
-        };
-    }
-
-    let vehicle = await VehiclesRepository.getByLicensePlate(licensePlate);
-
-    if (!vehicle) {
-        return {
-            error: true,
-            message: 'Vehicle not found'
         };
     }
 
