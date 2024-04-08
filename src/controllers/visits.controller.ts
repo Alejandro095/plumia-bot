@@ -9,21 +9,21 @@ import Visit from "./../types/visit.type";
 
 
 export async function createVisit(licensePlate: string, mallId: string): Promise<ControllerResponse<Visit | null>>{
-    let activeVisit = await VisitsRepository.getAnActiveVisit(licensePlate);
-
-    if (activeVisit) {
-        return {
-            error: true,
-            message: 'There is already an active visit'
-        };
-    }
-
     let vehicle = await VehiclesRepository.getByLicensePlate(licensePlate);
 
     if (!vehicle) {
         return {
             error: true,
             message: 'Vehicle not found'
+        };
+    }
+
+    let activeVisit = await VisitsRepository.getAnActiveVisit(licensePlate);
+
+    if (activeVisit) {
+        return {
+            error: true,
+            message: 'There is already an active visit'
         };
     }
 
