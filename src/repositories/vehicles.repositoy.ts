@@ -7,3 +7,9 @@ export async function getByLicensePlate(licensePlate: string): Promise<Vehicle |
 
     return rowCount == 0 ? null : rows[0] as Vehicle;
 }
+
+export async function updateVehicle(vehicleId: string, licensePlate: string): Promise<boolean> {
+    let { rowCount } = await sql`UPDATE vehicles SET licenseplate = ${licensePlate} WHERE id = ${vehicleId};`;
+
+    return rowCount > 0;
+}

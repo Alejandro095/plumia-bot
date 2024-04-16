@@ -3,7 +3,7 @@ export interface predataStep {
     data: string | null;
 }
 
-export interface predataState { state: 'registering' | 'registered' | null, steps: predataStep[] }
+export interface predataState { state: 'registering' | 'registered' | 'updateLicensePlate' | null, steps: predataStep[] }
 
 export interface Predata {
     [key: string]: predataState;

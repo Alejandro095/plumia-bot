@@ -20,14 +20,15 @@ async function populateDatabase() {
 
     // Insertar datos de prueba
     await sql`
-        INSERT INTO users(name, lastname, telegramid, roleid) VALUES ('Javier', NULL, NULL, 1);
+        INSERT INTO admins(name, email, password, roleid) VALUES ('Alejandro', 'alex@plumia.mx', 'pass', 1);
     `;
+
     await sql`
         INSERT INTO users(name, lastname, telegramid, roleid) VALUES ('Alejandro', 'Tovar', '6355799228', 2);
     `;
 
     await sql`
-        INSERT INTO vehicles(userid, name, licenseplate) VALUES (2, 'Aveo', 'ABC123');
+        INSERT INTO vehicles(userid, name, licenseplate) VALUES (1, 'Aveo', 'ABC123');
     `;
 
     await sql`

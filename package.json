@@ -9,7 +9,7 @@
     "dev": "nodemon -r dotenv/config --exec ts-node src/index.ts",
     "db:create": "ts-node -r dotenv/config ./src/scripts/create-database.ts",
     "db:populate": "ts-node -r dotenv/config ./src/scripts/populate-database.ts",
-    "db:seed": "npm run db:create & npm run db:populate"
+    "db:init": "npm run db:create & npm run db:populate"
   },
   "keywords": [],
   "author": "",

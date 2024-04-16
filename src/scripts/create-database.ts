@@ -17,6 +17,9 @@ async function createDatabase() {
         DROP TABLE IF EXISTS Users;
     `;
     await sql`
+        DROP TABLE IF EXISTS Admins;
+    `;
+    await sql`
         DROP TABLE IF EXISTS Roles;
     `;
 
@@ -41,6 +44,19 @@ async function createDatabase() {
             CONSTRAINT fk_users_roles FOREIGN KEY(roleId) REFERENCES Roles(id) ON DELETE SET NULL
         );
     `;
+
+    await sql`
+        CREATE TABLE Admins (
+            id INT GENERATED ALWAYS AS IDENTITY,
+            name VARCHAR(100) NOT NULL,
+            email VARCHAR(100) NOT NULL,
+            password VARCHAR(100) NOT NULL,
+            roleId INT,
+            PRIMARY KEY (id),
+            CONSTRAINT fk_admins_roles FOREIGN KEY(roleId) REFERENCES Roles(id) ON DELETE SET NULL
+        );
+    `;
+
     await sql`
         CREATE TABLE Vehicles (
             id INT GENERATED ALWAYS AS IDENTITY,
@@ -59,7 +75,7 @@ async function createDatabase() {
             cost NUMERIC NOT NULL,
             information TEXT NOT NULL,
             PRIMARY KEY (id),
-            CONSTRAINT fk_malls_users FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE
+            CONSTRAINT fk_malls_admins FOREIGN KEY(userId) REFERENCES Admins(id) ON DELETE CASCADE
         );
     `;
     await sql`

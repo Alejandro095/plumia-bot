@@ -27,13 +27,13 @@ export async function sendWelcomeMessage(bot: Telegraf<Context<Update>>, license
     message += `Recuerda que los costos son los siguientes:\n`;
     message += `1. Costo por hora: ${visitDetail.cost} mxn\n\n`;
 
-    message += `A continuación te mando la ubicación de tu lugar de estacionamiento.\n\n`;
+    message += `A continuación, te mando la ubicación de tu lugar de estacionamiento.\n\n`;
 
     await bot.telegram.sendMessage(user.telegramid, message);
 
     await bot.telegram.sendLocation(user.telegramid, visitDetail.latitude, visitDetail.longitude);
 
-    await bot.telegram.sendMessage(user.telegramid, `Si necesitas algo más, solo dime! 🚀 ¡Que tengas un excelente genial! 🎉`);
+    await bot.telegram.sendMessage(user.telegramid, `Si necesitas algo más, solo dime! 🚀 ¡Que tengas un excelente día! 🎉`);
 
     return { error: false, message: "Message sent successfully", data: true };
 }
@@ -51,7 +51,7 @@ export async function sendFinishMessage(bot: Telegraf<Context<Update>>, licenseP
         return { error: true, message: "Error while retrieving the detail." };
     }
 
-    await bot.telegram.sendMessage(user.telegramid, `¡Hasta la próxima ${user.name}! Ahora te enviaré el costo de tu estadía, que será cargado a tu cuenta configurada. 💳`);
+    await bot.telegram.sendMessage(user.telegramid, `¡Hasta la próxima ${user.name}! Ahora te enviaré el costo de tu estadía, que será cargado a tu targeta configurada. 💳`);
 
     let durationInHours = getTimeDiffInHours(visit.initialdate, visit.finaldate ?? new Date());
 
