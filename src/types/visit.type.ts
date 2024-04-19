@@ -12,7 +12,6 @@ export interface VisitDetail {
     longitude: number;
     mall: string;
     cost: number;
-    information: string;
 }
 
 export interface ActiveVisit {

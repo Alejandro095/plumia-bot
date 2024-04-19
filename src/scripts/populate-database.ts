@@ -32,7 +32,7 @@ async function populateDatabase() {
     `;
 
     await sql`
-        INSERT INTO malls(userid, name, cost, information) VALUES (1, 'Plaza Centrika', 10, 'Información de Plaza Centrika');
+        INSERT INTO malls(userid, name, cost) VALUES (1, 'Plaza Centrika', 10);
     `;
 
     await sql`

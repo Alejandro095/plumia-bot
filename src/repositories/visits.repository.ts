@@ -8,7 +8,7 @@ export async function create(visit: Visit): Promise<Visit | null>{
 }
 
 export async function getDetail(visitId: string): Promise<VisitDetail | null> {
-    let { rows, rowCount } = await sql`SELECT S.id AS spotId, S.latitude, S.longitude, M.name AS mall, M.cost, M.information FROM visits V INNER JOIN spots S ON V.spotid = S.id INNER JOIN public.malls M on S.mallid = M.id WHERE V.id = ${visitId};`;
+    let { rows, rowCount } = await sql`SELECT S.id AS spotId, S.latitude, S.longitude, M.name AS mall, M.cost FROM visits V INNER JOIN spots S ON V.spotid = S.id INNER JOIN public.malls M on S.mallid = M.id WHERE V.id = ${visitId};`;
 
     return rowCount == 0 ? null : rows[0] as VisitDetail;
 }

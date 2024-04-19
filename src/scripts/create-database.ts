@@ -73,7 +73,6 @@ async function createDatabase() {
             userId INT NOT NULL,
             name VARCHAR(100) NOT NULL,
             cost NUMERIC NOT NULL,
-            information TEXT NOT NULL,
             PRIMARY KEY (id),
             CONSTRAINT fk_malls_admins FOREIGN KEY(userId) REFERENCES Admins(id) ON DELETE CASCADE
         );
